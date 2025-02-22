@@ -2,22 +2,29 @@ const { createApp, ref } = Vue;
 
 createApp({
     setup() {
-        const players = ref([
-            {name: 'Саша', score: 0},
-            {name: 'Гузель', score: 0},
-        ]);
+        const players = ref([]);
         const isScoreModalOpen = ref(false);
         const isAddPlayerModalOpen = ref(false);
         const isEditModalOpen = ref(false);
+        const isMenuOpen = ref(false);
         const currentPlayerIndex = ref(null);
         const modalType = ref('');
         const newPlayerName = ref('');
         const editPlayerName = ref('');
+        const startScore = ref(100);
 
         const openModal = (type, index) => {
             modalType.value = type;
             currentPlayerIndex.value = index;
             isScoreModalOpen.value = true;
+        };
+
+        const openMenu = () => {
+            isMenuOpen.value = true;
+        };
+
+        const closeMenu = () => {
+            isMenuOpen.value = false;
         };
 
         const openAddPlayerModal = () => {
@@ -38,6 +45,7 @@ createApp({
             currentPlayerIndex.value = null;
             newPlayerName.value = '';
             editPlayerName.value = '';
+            isMenuOpen.value = false;
         };
 
         const updateScore = (num) => {
@@ -68,6 +76,39 @@ createApp({
             closeModal();
         };
 
+        const resetPlayers = () => {
+            for (const player of players.value) {
+                player.score = 0;
+            }
+            closeModal();
+        };
+
+        const setPlayersPreset = (preset) => {
+            const newPlayers = [];
+            for (const letter of preset) {
+                if (letter === 'a') {
+                    newPlayers.push({name: 'Александр', score: 0});
+                } else if (letter === 'e') {
+                    newPlayers.push({name: 'Елена', score: 0});
+                } else if (letter === 'g') {
+                    newPlayers.push({name: 'Гузель', score: 0});
+                } else if (letter === 's') {
+                    newPlayers.push({name: 'Сергей', score: 0});
+                }
+            }
+
+            players.value = newPlayers;
+            closeModal();
+        };
+
+        const setStartScore = () => {
+            for (const player of players.value) {
+                console.log(player, startScore.value);
+                player.score = startScore.value;
+            }
+            closeModal();
+        }
+
         return {
             players,
             isScoreModalOpen,
@@ -75,14 +116,21 @@ createApp({
             isEditModalOpen,
             newPlayerName,
             editPlayerName,
+            isMenuOpen,
+            startScore,
             openModal,
             openAddPlayerModal,
             openEditModal,
             closeModal,
+            openMenu,
+            resetPlayers,
+            closeMenu,
             updateScore,
             addPlayer,
             saveEdit,
-            deletePlayer
+            deletePlayer,
+            setPlayersPreset,
+            setStartScore,
         };
     }
 }).mount('#app');

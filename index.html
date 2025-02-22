@@ -13,7 +13,10 @@
 
 <body class="bg-gray-900 text-white">
     <div id="app" class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4">Счетчик очков</h1>
+        <nav class="flex justify-between mb-4">
+            <h1 class="text-3xl font-bold">Счетчик очков</h1>
+            <button @click="openMenu" class="bg-gray-700 text-white px-4 py-2 rounded">☰</button>
+        </nav>
         <ul class="space-y-2">
             <li v-for="(player, index) in players" :key="index"
                 class="flex items-center justify-between bg-gray-800 p-4 rounded-lg">
@@ -68,6 +71,49 @@
                     <button @click="saveEdit" class="bg-blue-500 text-white px-4 py-2 rounded">Сохранить</button>
                     <button @click="deletePlayer" class="bg-red-500 text-white px-4 py-2 rounded ml-2">Удалить</button>
                     <button @click="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded ml-2">Отмена</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Меню -->
+        <div v-if="isMenuOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-xl mb-2">Действия</h3>
+                <ul class="mb-4">
+                    <li>
+                        <button @click="resetPlayers" class="bg-red-500 text-white px-2 py-1 rounded">Обнулить
+                            счет</button>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl mb-2">Игроки</h3>
+                <ul class="mb-4">
+                    <li>
+                        <a href="#" v-on:click.prevent="setPlayersPreset('sega')"
+                            class="text-blue-200 hover:underline hover:decoration-gray-800 focus:outline-none focus:underline focus:decoration-gray-800 dark:decoration-white">СЕГА</a>
+                    </li>
+                    <li>
+                        <a href="#" v-on:click.prevent="setPlayersPreset('ga')"
+                            class="text-blue-200 hover:underline hover:decoration-gray-800 focus:outline-none focus:underline focus:decoration-gray-800 dark:decoration-white">А
+                            и Г</a>
+                    </li>
+                    <li>
+                        <a href="#" v-on:click.prevent="setPlayersPreset('se')"
+                            class="text-blue-200 hover:underline hover:decoration-gray-800 focus:outline-none focus:underline focus:decoration-gray-800 dark:decoration-white">С
+                            и Е</a>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl mb-2">Стартовые значения</h3>
+                <ul class="mb-4">
+                    <li>
+                        <input type="number" class="bg-gray-700 text-white px-4 py-2 rounded w-40" v-model="startScore">
+                        <button @click="setStartScore" class="bg-blue-500 text-white px-4 py-2 rounded">Ok</button>
+                    </li>
+                </ul>
+
+                <div class="mt-4 flex justify-center">
+                    <button @click="closeMenu" class="bg-gray-500 text-white px-4 py-2 rounded">Отмена</button>
                 </div>
             </div>
         </div>

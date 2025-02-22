@@ -1,0 +1,20 @@
+{
+  "short_name": "Счетчик",
+  "name": "Счетчик очков для настольных игр",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1F2937",
+  "theme_color": "#1F2937"
+}

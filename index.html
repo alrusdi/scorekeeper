@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счетчик очков для настольных игр</title>
+    <link href="/vendor/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1F2937">
+</head>
+
+<body class="bg-gray-900 text-white">
+    <div id="app" class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">Счетчик очков</h1>
+        <ul class="space-y-2">
+            <li v-for="(player, index) in players" :key="index"
+                class="flex items-center justify-between bg-gray-800 p-4 rounded-lg">
+                <button @click="openModal('decrease', index)" class="bg-red-500 text-white px-4 py-2 rounded">-</button>
+                <div @click="openEditModal(index)" class="flex-1 mx-4 text-center text-lg font-bold space-x-2">
+                    <span class="player-name py-">{{ player.name }}</span>
+                    <span class="player-score px-2 py-1 rounded bg-gray-600"> {{ player.score }}</span>
+                </div>
+                <button @click="openModal('increase', index)"
+                    class="bg-green-500 text-white px-4 py-2 rounded">+</button>
+            </li>
+        </ul>
+        <div class="mt-4 flex justify-center">
+            <button @click="openAddPlayerModal" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Добавить
+                игрока</button>
+        </div>
+
+        <!-- Модальное окно для изменения счета -->
+        <div v-if="isScoreModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h2 class="text-xl mb-4">Выберите значение</h2>
+                <div class="grid grid-cols-5 gap-2">
+                    <button v-for="num in 50" :key="num" @click="updateScore(num)"
+                        class="bg-gray-700 text-white px-4 py-2 rounded">{{ num }}</button>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button @click="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded">Отмена</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно для добавления игрока -->
+        <div v-if="isAddPlayerModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h2 class="text-xl mb-4">Добавить игрока</h2>
+                <input v-model="newPlayerName" type="text" placeholder="Имя игрока"
+                    class="bg-gray-700 text-white px-4 py-2 rounded w-full mb-4">
+                <div class="flex justify-end">
+                    <button @click="addPlayer" class="bg-blue-500 text-white px-4 py-2 rounded">Добавить</button>
+                    <button @click="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded ml-2">Отмена</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно для редактирования имени игрока -->
+        <div v-if="isEditModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h2 class="text-xl mb-4">Редактировать игрока</h2>
+                <input v-model="editPlayerName" type="text" placeholder="Имя игрока"
+                    class="bg-gray-700 text-white px-4 py-2 rounded w-full mb-4">
+                <div class="flex justify-end">
+                    <button @click="saveEdit" class="bg-blue-500 text-white px-4 py-2 rounded">Сохранить</button>
+                    <button @click="deletePlayer" class="bg-red-500 text-white px-4 py-2 rounded ml-2">Удалить</button>
+                    <button @click="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded ml-2">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendor/vue3.js"></script>
+    <script src="/main.js"></script>
+    <!-- Скрипт для кеширования элементов приложения если оно установлено как PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch((err) => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>

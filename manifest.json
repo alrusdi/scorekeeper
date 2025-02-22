@@ -13,8 +13,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "https://score.alrusdi.ru",
   "display": "standalone",
   "background_color": "#1F2937",
-  "theme_color": "#1F2937"
+  "theme_color": "#1F2937",
+  "version": "1.3"
 }
